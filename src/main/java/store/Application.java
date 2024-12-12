@@ -8,5 +8,7 @@ public class Application {
 
         Inventory inventory = new Inventory();
         outputView.show(inventory);
+
+        outputView.showPurchaseRequest();
     }
 }
