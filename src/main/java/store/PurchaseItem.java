@@ -29,4 +29,16 @@ public class PurchaseItem {
     public int getPromotionCount() {
         return promotionCount;
     }
+
+    public int getNonPromotionCount() {
+        return nonPromotionCount;
+    }
+
+    public void setNonPromotionCount(int nonPromotionCount) {
+        this.nonPromotionCount = nonPromotionCount;
+    }
+
+    public int getFreeCount() {
+        return freeCount;
+    }
 }

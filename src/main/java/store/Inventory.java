@@ -30,6 +30,14 @@ public class Inventory {
                 .orElseThrow(IllegalArgumentException::new);
     }
 
+    public int getPriceBy(String productName) {
+        Product findProduct = products.stream()
+                .filter(product -> product.getName().equals(productName))
+                .findFirst()
+                .orElseThrow(IllegalArgumentException::new);
+        return findProduct.getPrice();
+    }
+
     public void printFormatted() {
         for(Product product : products) {
             System.out.println(product.getFormatted());
@@ -118,7 +126,7 @@ public class Inventory {
                 totalCount += product.getCount();
             }
             if (totalCount < purchaseItem.getProductCount()) {
-                throw new IllegalArgumentException("재고 수량을 초과하여 구매할 수 없습니다. 다시 입력해 주세요.");
+                throw new IllegalArgumentException("[ERROR] 재고 수량을 초과하여 구매할 수 없습니다. 다시 입력해 주세요.");
             }
         }
     }

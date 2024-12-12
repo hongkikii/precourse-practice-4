@@ -12,6 +12,51 @@ public class User {
         this.shoppingCart = shoppingCart;
     }
 
+    public List<PurchaseItem> getShoppingCart() {
+        return shoppingCart;
+    }
+
+    public int getTotalCount() {
+        int totalCount = 0;
+        for(PurchaseItem item: shoppingCart) {
+            totalCount += (item.getFreeCount() + item.getPromotionCount() + item.getNonPromotionCount());
+        }
+        return totalCount;
+    }
+
+    public int getTotalPrice(Inventory inventory) {
+        int totalPrice = 0;
+        for(PurchaseItem item: shoppingCart) {
+            String productName = item.getProductName();
+            Product product = inventory.getBy(productName);
+            totalPrice += product.getPrice() *
+                    (item.getFreeCount() + item.getPromotionCount() + item.getNonPromotionCount());
+        }
+        return totalPrice;
+    }
+
+    public String getFormattedFreePrice(Inventory inventory) {
+        int totalPrice = 0;
+        for(PurchaseItem item: shoppingCart) {
+            if(!(item.getFreeCount() > 0)) continue;
+            String productName = item.getProductName();
+            Product product = inventory.getBy(productName);
+            totalPrice += product.getPrice() * item.getFreeCount();
+        }
+        return String.format("-%,d", totalPrice);
+    }
+
+    public int getFreePrice(Inventory inventory) {
+        int totalPrice = 0;
+        for(PurchaseItem item: shoppingCart) {
+            if(!(item.getFreeCount() > 0)) continue;
+            String productName = item.getProductName();
+            Product product = inventory.getBy(productName);
+            totalPrice += product.getPrice() * item.getFreeCount();
+        }
+        return totalPrice;
+    }
+
     public int getNonPromotionPurchasePrice(Inventory inventory) {
         int totalPrice = 0;
         List<PurchaseItem> nonPromotionPurchaseProducts = shoppingCart.stream()
@@ -42,11 +87,9 @@ public class User {
                         .findAny()
                         .orElseThrow(IllegalArgumentException::new);
 
-                int promotionProductCount = promotionProduct.getCount();
                 PromotionType promotionType = promotionProduct.getPromotion().getPromotionType();
-                int promotionSet = promotionProductCount / promotionType.getTotalCount();
-                promotionCount = promotionSet * promotionType.getBuyCount();
-                freeCount = promotionSet * promotionType.getGetCount();
+                promotionCount = (purchaseItem.getProductCount() / promotionType.getTotalCount()) * promotionType.getBuyCount(); // 3 * 2 = 6
+                freeCount = (purchaseItem.getProductCount() / promotionType.getTotalCount()) * promotionType.getGetCount();
                 promotionProduct.sub(promotionCount + freeCount);
 
                 if(purchaseAmount % promotionType.getTotalCount() == promotionType.getBuyCount()

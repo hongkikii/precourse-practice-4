@@ -16,6 +16,10 @@ public class Membership {
         this.price = price;
     }
 
+    public String getFormattedPrice() {
+        return String.format("-%,d", price);
+    }
+
     public int getPrice() {
         return price;
     }
