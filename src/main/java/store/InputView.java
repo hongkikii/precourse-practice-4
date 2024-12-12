@@ -1,5 +1,7 @@
 package store;
 
+import static store.Constants.COMMON_ERROR_MESSAGE;
+
 import camp.nextstep.edu.missionutils.Console;
 import java.util.ArrayList;
 import java.util.List;
@@ -10,6 +12,26 @@ public class InputView {
         System.out.println("구매하실 상품명과 수량을 입력해 주세요. (예: [사이다-2],[감자칩-1])");
         String purchaseItemCandidate = Console.readLine();
         return parse(purchaseItemCandidate);
+    }
+
+    public boolean readMembershipApplied() {
+        while(true) {
+            try {
+                System.out.println();
+                System.out.println("멤버십 할인을 받으시겠습니까? (Y/N)");
+                String answer = Console.readLine();
+                if(answer.equals("Y")) {
+                    return true;
+                }
+                if (answer.equals("N")) {
+                    return false;
+                }
+                throw new IllegalArgumentException(COMMON_ERROR_MESSAGE);
+            }
+            catch (IllegalArgumentException e) {
+                System.out.println(e.getMessage());
+            }
+        }
     }
 
     private List<PurchaseItem> parse(String purchaseItemCandidate) {

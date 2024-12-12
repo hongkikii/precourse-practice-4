@@ -12,6 +12,19 @@ public class User {
         this.shoppingCart = shoppingCart;
     }
 
+    public int getNonPromotionPurchasePrice(Inventory inventory) {
+        int totalPrice = 0;
+        List<PurchaseItem> nonPromotionPurchaseProducts = shoppingCart.stream()
+                .filter(p -> p.getPromotionCount() == 0)
+                .toList();
+        for(PurchaseItem purchaseItem : nonPromotionPurchaseProducts) {
+            String productName = purchaseItem.getProductName();
+            Product product = inventory.getBy(productName);
+            totalPrice += product.getPrice() * purchaseItem.getProductCount();
+        }
+        return totalPrice;
+    }
+
     public void purchase(Inventory inventory) {
         List<Product> products = inventory.getProducts();
         for (PurchaseItem purchaseItem : shoppingCart) {

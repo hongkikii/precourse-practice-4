@@ -21,6 +21,10 @@ public class Product {
         return count;
     }
 
+    public int getPrice() {
+        return price;
+    }
+
     public Promotion getPromotion() {
         return promotion;
     }

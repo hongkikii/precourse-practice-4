@@ -5,6 +5,7 @@ import java.util.List;
 public class Application {
     public static void main(String[] args) {
         // TODO: 프로그램 구현
+        InputView inputView = new InputView();
         OutputView outputView = new OutputView();
         outputView.showWelcomeComment();
 
@@ -14,7 +15,6 @@ public class Application {
         User user = null;
         while (user == null) {
             try {
-                InputView inputView = new InputView();
                 List<PurchaseItem> purchaseItemsCandidate = inputView.readPurchaseItem();
                 inventory.isValid(purchaseItemsCandidate);
                 user = new User(purchaseItemsCandidate);
@@ -25,5 +25,10 @@ public class Application {
         }
 
         user.purchase(inventory);
+        Membership membership = new Membership();
+        boolean membershipApplied = inputView.readMembershipApplied();
+        if (membershipApplied) {
+            membership.set(user.getNonPromotionPurchasePrice(inventory));
+        }
     }
 }

@@ -23,6 +23,13 @@ public class Inventory {
         loadProduct();
     }
 
+    public Product getBy(String productName) {
+        return products.stream()
+                .filter(product -> product.getName().equals(productName))
+                .findFirst()
+                .orElseThrow(IllegalArgumentException::new);
+    }
+
     public void printFormatted() {
         for(Product product : products) {
             System.out.println(product.getFormatted());
