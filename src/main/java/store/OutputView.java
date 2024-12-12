@@ -13,6 +13,7 @@ public class OutputView {
     }
 
     public void showReceipt(User user, Inventory inventory, Membership membership) {
+        System.out.println();
         System.out.println("===========W 편의점=============");
         System.out.printf("%-8s %5s %5s", "상품명", "수량", "금액");
         System.out.println();

@@ -49,17 +49,17 @@ public class InputView {
         return purchaseItems;
     }
 
-    public boolean loop() {
+    public boolean notLoop() {
         while(true) {
             try {
                 System.out.println();
                 System.out.println("감사합니다. 구매하고 싶은 다른 상품이 있나요? (Y/N)");
                 String answer = Console.readLine();
                 if(answer.equals("Y")) {
-                    return true;
+                    return false;
                 }
                 if (answer.equals("N")) {
-                    return false;
+                    return true;
                 }
                 throw new IllegalArgumentException(COMMON_ERROR_MESSAGE);
             }
