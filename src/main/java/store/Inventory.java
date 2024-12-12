@@ -2,6 +2,7 @@ package store;
 
 import static store.Constants.COMMON_ERROR_MESSAGE;
 
+import camp.nextstep.edu.missionutils.DateTimes;
 import java.io.File;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -89,7 +90,7 @@ public class Inventory {
                     promotion = nonPromotion;
                 }
                 Product product = new Product(productName, count, price, promotion);
-                LocalDate today = LocalDate.now();
+                LocalDate today = DateTimes.now().toLocalDate();
                 if(promotion.isPositive() &&
                         (today.isBefore(promotion.getStartDate()) || today.isAfter(promotion.getEndDate()))) {
                     continue;

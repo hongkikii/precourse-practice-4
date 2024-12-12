@@ -104,12 +104,14 @@ public class User {
                         promotionProduct.sub(1);
                     }
                 }
-                purchaseAmount -= (promotionCount + freeCount);
 
+                purchaseAmount -= (promotionCount + freeCount);
                 if (purchaseAmount > 0) {
                     if(isDenyAddNonPromotionCount(promotionProduct.getName(), purchaseAmount)) {
+                        purchaseItem.addAfter(promotionCount, nonPromotionCount, freeCount);
                         continue;
                     }
+
                 }
             }
 
