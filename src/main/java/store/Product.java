@@ -13,6 +13,14 @@ public class Product {
         this.promotion = promotion;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public int getCount() {
+        return count;
+    }
+
     public String getFormatted() {
         return "- " + name + " " + getFormattedPrice() + " " + getFormattedCount() + " " + promotion.getName();
     }

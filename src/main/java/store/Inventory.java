@@ -88,4 +88,22 @@ public class Inventory {
             throw new IllegalArgumentException(COMMON_ERROR_MESSAGE);
         }
     }
+
+    public void isValid(List<PurchaseItem> purchaseItems) {
+        for (PurchaseItem purchaseItem : purchaseItems) {
+            List<Product> matchingProduct = products.stream()
+                    .filter(p -> p.getName().equals(purchaseItem.getProductName()))
+                    .toList();
+            if (matchingProduct.isEmpty()) {
+                throw new IllegalArgumentException("[ERROR] 존재하지 않는 상품입니다. 다시 입력해 주세요.");
+            }
+            int totalCount = 0;
+            for (Product product : matchingProduct) {
+                totalCount += product.getCount();
+            }
+            if (totalCount < purchaseItem.getProductCount()) {
+                throw new IllegalArgumentException("재고 수량을 초과하여 구매할 수 없습니다. 다시 입력해 주세요.");
+            }
+        }
+    }
 }
