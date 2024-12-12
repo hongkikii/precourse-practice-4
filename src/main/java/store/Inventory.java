@@ -29,6 +29,10 @@ public class Inventory {
         }
     }
 
+    public List<Product> getProducts() {
+        return products;
+    }
+
     private void loadPromotion() {
         try {
             Scanner scanner = new Scanner(new File("src/main/resources/promotions.md"));
@@ -70,9 +74,14 @@ public class Inventory {
                     promotion = nonPromotion;
                 }
                 Product product = new Product(productName, count, price, promotion);
+                LocalDate today = LocalDate.now();
+                if(promotion.isPositive() &&
+                        (today.isBefore(promotion.getStartDate()) || today.isAfter(promotion.getEndDate()))) {
+                    continue;
+                }
                 products.add(product);
                 if (promotion.isPositive()) {
-                    if(i == products.size() - 1) {
+                    if(i == productInfos.size() - 1) {
                         Product nonPromotionProduct = new Product(productName, 0, price, nonPromotion);
                         products.add(nonPromotionProduct);
                         continue;

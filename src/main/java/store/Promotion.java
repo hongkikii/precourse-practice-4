@@ -22,4 +22,16 @@ public class Promotion {
     public boolean isPositive() {
         return this.promotionType != PromotionType.NONE;
     }
+
+    public LocalDate getStartDate() {
+        return startDate;
+    }
+
+    public LocalDate getEndDate() {
+        return endDate;
+    }
+
+    public PromotionType getPromotionType() {
+        return promotionType;
+    }
 }

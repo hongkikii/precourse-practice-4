@@ -11,18 +11,19 @@ public class Application {
         Inventory inventory = new Inventory();
         outputView.show(inventory);
 
-        List<PurchaseItem> purchaseItems = null;
-        while (purchaseItems == null) {
+        User user = null;
+        while (user == null) {
             try {
                 InputView inputView = new InputView();
                 List<PurchaseItem> purchaseItemsCandidate = inputView.readPurchaseItem();
                 inventory.isValid(purchaseItemsCandidate);
-                purchaseItems = purchaseItemsCandidate;
+                user = new User(purchaseItemsCandidate);
             }
             catch (IllegalArgumentException e) {
                 System.out.println(e.getMessage());
             }
         }
 
+        user.purchase(inventory);
     }
 }

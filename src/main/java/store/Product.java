@@ -2,7 +2,7 @@ package store;
 
 public class Product {
     private final String name;
-    private final int count;
+    private int count;
     private final int price;
     private final Promotion promotion;
 
@@ -21,8 +21,16 @@ public class Product {
         return count;
     }
 
+    public Promotion getPromotion() {
+        return promotion;
+    }
+
     public String getFormatted() {
         return "- " + name + " " + getFormattedPrice() + " " + getFormattedCount() + " " + promotion.getName();
+    }
+
+    public void sub(int amount) {
+        count -= amount;
     }
 
     private String getFormattedPrice() {
