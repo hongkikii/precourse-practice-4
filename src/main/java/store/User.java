@@ -88,8 +88,13 @@ public class User {
                         .orElseThrow(IllegalArgumentException::new);
 
                 PromotionType promotionType = promotionProduct.getPromotion().getPromotionType();
-                promotionCount = (purchaseItem.getProductCount() / promotionType.getTotalCount()) * promotionType.getBuyCount(); // 3 * 2 = 6
-                freeCount = (purchaseItem.getProductCount() / promotionType.getTotalCount()) * promotionType.getGetCount();
+                promotionCount = (purchaseAmount / promotionType.getTotalCount()) * promotionType.getBuyCount(); // 10 / 3 = 3 * 2 = 6
+                freeCount = (purchaseAmount / promotionType.getTotalCount()) * promotionType.getGetCount(); // 10 / 3 = 3 * 1 = 3
+
+                if (promotionCount + freeCount > promotionProduct.getCount()) {
+                    promotionCount = (promotionProduct.getCount() / promotionType.getTotalCount()) * promotionType.getBuyCount();
+                    freeCount = (promotionProduct.getCount() / promotionType.getTotalCount()) * promotionType.getGetCount();
+                }
                 promotionProduct.sub(promotionCount + freeCount);
 
                 if(purchaseAmount % promotionType.getTotalCount() == promotionType.getBuyCount()
@@ -122,6 +127,7 @@ public class User {
     private boolean isDenyAddNonPromotionCount(String productName, int count) {
         while(true) {
             try {
+                System.out.println();
                 System.out.println("현재 " + productName + " " +count + "개는 프로모션 할인이 적용되지 않습니다. 그래도 구매하시겠습니까? (Y/N)");
                 String answer = Console.readLine();
                 if(answer.equals("Y")) {
@@ -141,6 +147,7 @@ public class User {
     private boolean isApproveAddFreeCount(String productName) {
         while(true) {
             try {
+                System.out.println();
                 System.out.println("현재 " + productName + "은(는) 1개를 무료로 더 받을 수 있습니다. 추가하시겠습니까? (Y/N)");
                 String answer = Console.readLine();
                 if(answer.equals("Y")) {
