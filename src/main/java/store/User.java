@@ -89,6 +89,7 @@ public class User {
 
                 PromotionType promotionType = promotionProduct.getPromotion().getPromotionType();
                 promotionCount = (purchaseAmount / promotionType.getTotalCount()) * promotionType.getBuyCount(); // 10 / 3 = 3 * 2 = 6
+                if(promotionCount == 0) promotionCount = purchaseAmount;
                 freeCount = (purchaseAmount / promotionType.getTotalCount()) * promotionType.getGetCount(); // 10 / 3 = 3 * 1 = 3
 
                 if (promotionCount + freeCount > promotionProduct.getCount()) {
@@ -104,24 +105,26 @@ public class User {
                         promotionProduct.sub(1);
                     }
                 }
-
+                System.out.println(purchaseAmount);
                 purchaseAmount -= (promotionCount + freeCount);
+                System.out.println(purchaseAmount);
                 if (purchaseAmount > 0) {
                     if(isDenyAddNonPromotionCount(promotionProduct.getName(), purchaseAmount)) {
                         purchaseItem.addAfter(promotionCount, nonPromotionCount, freeCount);
                         continue;
                     }
-
                 }
             }
 
-            Product nonPromotionProduct = matchingProduct.stream()
-                    .filter(p -> !p.getPromotion().isPositive())
-                    .findAny()
-                    .orElseThrow(IllegalArgumentException::new);
+            if (purchaseAmount > 0) {
+                Product nonPromotionProduct = matchingProduct.stream()
+                        .filter(p -> !p.getPromotion().isPositive())
+                        .findAny()
+                        .orElseThrow(IllegalArgumentException::new);
 
-            nonPromotionProduct.sub(purchaseAmount);
-            nonPromotionCount = purchaseAmount;
+                nonPromotionProduct.sub(purchaseAmount);
+                nonPromotionCount = purchaseAmount;
+            }
             purchaseItem.addAfter(promotionCount, nonPromotionCount, freeCount);
         }
     }
